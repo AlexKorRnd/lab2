@@ -17,7 +17,7 @@ import retrofit.converter.GsonConverter;
 
 // этот класс взят полностью из примера в лабе
 public class WebFunctionService {
-    public static String BASE_URL = "http://net2ftp.ru/node0/miss.valeria1234@mail.ru";
+    public static String BASE_URL = "https://www.dropbox.com/";
 
     Gson gson = new GsonBuilder()
             .setExclusionStrategies(getExclusionStrategy())

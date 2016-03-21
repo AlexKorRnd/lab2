@@ -3,6 +3,7 @@ package com.example.lab2;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import retrofit.Callback;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        WebFunctionService webFunctionService = new WebFunctionService();
+        final WebFunctionService webFunctionService = new WebFunctionService();
         webFunctionService.getmWebService().getFile(new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                Log.e("log", error.getMessage(), error);
             }
         });
     }
