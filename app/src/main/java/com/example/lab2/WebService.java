@@ -6,6 +6,6 @@ import retrofit.http.GET;
 
 // этот класс взят полностью из примера в лабе
 public interface WebService {
-    @GET("/test.json")
+    @GET("/")
     void getFile(Callback<Response> c);
 }
