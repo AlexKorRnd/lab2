@@ -17,7 +17,7 @@ import retrofit.converter.GsonConverter;
 
 // этот класс взят полностью из примера в лабе
 public class WebFunctionService {
-    public static String BASE_URL = "https://doc-04-88-docs.googleusercontent.com/docs/securesc/v6ok9k4uok2e52kgh16kaa37v5crk5j1/d1qm8stekbs6arm47kvsvoafipasf2n4/1459238400000/17048787405590985885/17048787405590985885/0B9KCR_vJX2EDRUJ4TlJxU1RrUTQ?e=download";
+    public static String BASE_URL = "https://cs7055.vk.me/c414416/u55166008/docs/9edeb841bb0f/test.json?extra=Qt89w2RoDhcRhS8xA7H-6UGrhSoUcU-9rwU6HCMuYi8dsOfEfjRFAi3Eim4aFjNjdy7GjMMdCigSianqxO4lNh3j0nVVnRRqKDMPAbt7bqpuo1erwgInHpS6T0wkMqFs6hP8X1FTyKb9&dl=1";
 
     Gson gson = new GsonBuilder()
             .setExclusionStrategies(getExclusionStrategy())
