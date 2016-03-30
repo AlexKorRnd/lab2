@@ -5,6 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 // перевели response в строку
                 String string = WebFunctionService.responseToString(response);
                 textView.setText(string);
+                List<Item> items = new Gson().fromJson(string, new TypeToken< List<Item>>(){}.getType());
+                Toast.makeText(MainActivity.this, "Загружено элементов: " + items.size(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -44,6 +52,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
