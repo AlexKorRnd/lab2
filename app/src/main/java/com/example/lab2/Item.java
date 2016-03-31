@@ -1,27 +1,25 @@
 package com.example.lab2;
 
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
-// указываем к какой БД принадлежит таблица
-// allFields = true для того чтобы возле каждого поля не указавать аннотацию @Column
-@Table(database = AppDatabase.class, allFields = true)
-public class Item extends BaseModel {
-    @PrimaryKey(autoincrement = true)
-    long id;
+import java.io.Serializable;
 
+import io.realm.annotations.PrimaryKey;
+
+
+public class Item  implements Serializable{
+    @PrimaryKey
     private String image;
     private String name;
 
-    // пустой конструктор нужен для либы
     public Item() {
     }
 
     public Item(String imageUrl, String name) {
+        super();
         this.image = imageUrl;
         this.name = name;
     }
+
 
     public String getImage() {
         return image;

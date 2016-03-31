@@ -20,7 +20,7 @@ public class WebFunctionService {
     public static String BASE_URL = "https://cs7055.vk.me/c414416/u55166008/docs/9edeb841bb0f/test.json?extra=Qt89w2RoDhcRhS8xA7H-6UGrhSoUcU-9rwU6HCMuYi8dsOfEfjRFAi3Eim4aFjNjdy7GjMMdCigSianqxO4lNh3j0nVVnRRqKDMPAbt7bqpuo1erwgInHpS6T0wkMqFs6hP8X1FTyKb9&dl=1";
 
     Gson gson = new GsonBuilder()
-            .setExclusionStrategies(getExclusionStrategy())
+           // .setExclusionStrategies(getExclusionStrategy())
             .create();
 
     private RestAdapter mRest = new RestAdapter.Builder()
@@ -35,6 +35,9 @@ public class WebFunctionService {
         return mWebService;
     }
 
+    public Gson getGson() {
+        return gson;
+    }
 
     public static String responseToString(Response response) {
         BufferedReader reader = null;

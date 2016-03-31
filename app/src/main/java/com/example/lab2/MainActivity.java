@@ -1,18 +1,15 @@
 package com.example.lab2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.raizlabs.android.dbflow.list.FlowCursorList;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -22,6 +19,8 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,46 +31,72 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        textView = (TextView) findViewById(R.id.textView);
-        loadData();
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // добавляем LayoutManager для RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(MainActivity.this, DescriptionActivity.class);
+                intent.putExtra(DescriptionActivity.EXTRA_ITEM, adapter.getItem(position));
+                startActivity(intent);
+            }
+        }));
+
+        loadData();
     }
 
     private void loadData() {
         final WebFunctionService webFunctionService = new WebFunctionService();
-        webFunctionService.getmWebService().getFile(new Callback<Response>() {
+        webFunctionService.getmWebService().getFile(new Callback<List<Item>>() {
             @Override
-            public void success(Response response, Response response2) {
-                // перевели response в строку
-                String string = WebFunctionService.responseToString(response);
-                ArrayList<Item> items = new Gson().fromJson(string, new TypeToken<ArrayList<Item>>() {
-                }.getType());
-                for (Item item : items) {
-                    item.save();
-                }
-
-                showData(string, items.size());
+            public void success(List<Item> items, Response response) {
+                adapter.addAll(items);
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.e("log", error.getMessage(), error);
-                FlowCursorList<Item> flowCursorList = new FlowCursorList<>(50, SQLite.select()
-                        .from(Item.class));
-                if (!flowCursorList.isEmpty()) {
+
+            }
+        });
+        /*webFunctionService.getmWebService().getFile(new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                // перевели response в строку
+                String string = WebFunctionService.responseToString(response);
+
+                Realm realm = App.getRealm();
+
+                //realm.beginTransaction();
+                List<Item> items = webFunctionService.gson.fromJson(string, new TypeToken<List<Item>>() {
+                }.getType());
+                adapter.addAll(items);
+               // realm.createOrUpdateAllFromJson(Item.class, string);
+               // realm.commitTransaction();
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("log", error.getMessage(), error);
+
+                *//*if (!flowCursorList.isEmpty()) {
                     List<Item> items = flowCursorList.getAll();
                     Gson gson = new Gson();
                     String itemsJson = gson.toJson(items);
                     textView.setText(itemsJson);
                     showData(itemsJson, items.size());
-                }
+                }*//*
 
             }
-        });
+        });*/
     }
 
-    private void showData(String text, int count) {
-        textView.setText(text);
-        Toast.makeText(MainActivity.this, "Загружено элементов: " + count, Toast.LENGTH_LONG).show();
-    }
+
+
 }
